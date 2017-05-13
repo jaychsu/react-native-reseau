@@ -8,8 +8,6 @@ import Reseau, {
   formatUriSource,
 } from 'react-native-reseau'
 
-// Some of the reserved props will be overridden in `Reseau`, 
-// as shown below in `Reserved props in data`.
 const data = [
   { src: require('./assets/Facebook.jpg'), title: 'Facebook', anything: 123 },
   { src: 'http://iosicongallery.com/img/256/instagram-2016.png', title: 'Instagram', anything: 564 },
@@ -37,9 +35,8 @@ const renderRow = (rowData, sectionID, rowID) => (
 />
 ```
 
-### Reserved props in `data`:
+### Special props in `data`:
 
-- `k`: `string` key, identification
-- `g`: `string` group name
-- `o`: `number` order
-- `p`: `number` page
+- `o`?: `number` order
+- `g`?: `string` group name
+- `p`?: `number` page

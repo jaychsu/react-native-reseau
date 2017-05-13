@@ -4,3 +4,8 @@ export function formatUriSource(uri) {
   if (typeof uri === 'string' && uri.match(/^(http|data:image)/)) return { uri }
   return uri
 }
+
+export function sortData(data) {
+  if (!data || typeof data.sort !== 'function') return data
+  return data.sort((a, b) => a.o > b.o)
+}
