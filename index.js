@@ -1,4 +1,6 @@
 import Grid from './components/Grid'
 
-export * from './utils'
+export {
+  formatUriSource,
+} from './utils'
 export default Grid
