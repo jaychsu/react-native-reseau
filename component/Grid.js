@@ -1,14 +1,21 @@
 import React, { Component } from 'react'
 import { ListView } from 'react-native'
+import { sortData } from '../shared/util'
 import Item from './Item'
 
 export default class Grid extends Component {
   constructor(props) {
     super(props)
 
-    const dsHandler = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 })
+    const dsHandler = new ListView.DataSource({
+      rowHasChanged: (r1, r2) => r1.o !== r2.o,
+    })
+    const data = sortData(this.props.data.slice())
+
     this.state = {
-      ds: dsHandler.cloneWithRows(this.props.data)
+      data,
+      dsHandler,
+      ds: dsHandler.cloneWithRows(data),
     }
   }
 
@@ -17,6 +24,15 @@ export default class Grid extends Component {
       sectionID={sectionID}
       rowID={rowID}
       rowData={rowData}
+      onPress={() => {
+        let newData = this.state.data.slice()
+        newData[rowID].o = 0
+        newData = sortData(newData)
+        this.setState({
+          data: newData,
+          ds: this.state.dsHandler.cloneWithRows(newData),
+        })
+      }}
     >
       {this.props.renderRow(rowData, sectionID, rowID)}
     </Item>
@@ -29,12 +45,11 @@ export default class Grid extends Component {
         renderRow={this.renderRow}
         pageSize={this.props.pageSize}
         contentContainerStyle={{
+          ...this.props.contentContainerStyle,
           flexDirection: 'row',
           flexWrap: 'wrap',
           justifyContent: 'flex-start',
           alignItems: 'flex-start',
-
-          ...this.props.contentContainerStyle,
         }}
       />
     )
