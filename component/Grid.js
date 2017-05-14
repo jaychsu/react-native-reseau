@@ -1,6 +1,10 @@
 import React, { Component } from 'react'
-import { ListView } from 'react-native'
-import { sortData } from '../shared/util'
+import {
+  View,
+  Text,
+  ListView,
+} from 'react-native'
+import { transformData } from '../shared/util'
 import Item from './Item'
 
 export default class Grid extends Component {
@@ -8,31 +12,39 @@ export default class Grid extends Component {
     super(props)
 
     const dsHandler = new ListView.DataSource({
-      rowHasChanged: (r1, r2) => r1.o !== r2.o,
-    })
-    const data = sortData(this.props.data.slice())
+      getSectionHeaderData: (dataBlob, sectionID) => dataBlob[sectionID],
+      sectionHeaderHasChanged: (prev, next) => prev !== next,
 
+      getRowData: (dataBlob, sectionID, rowID) => dataBlob[`${sectionID}-${rowID}`],
+      rowHasChanged: (prev, next) => prev !== next,
+    })
+    const data = transformData(this.props.data.slice())
     this.state = {
       data,
       dsHandler,
-      ds: dsHandler.cloneWithRows(data),
+      ds: dsHandler.cloneWithRowsAndSections(...data),
     }
   }
+
+  renderSectionHeader = (sectionData, sectionID) => (
+    <View
+      style={{
+        width: 64,
+        height: 90,
+        marginBottom: 6,
+        marginLeft: 10,
+        marginRight: 10,
+      }}
+    >
+      <Text>{sectionData}</Text>
+    </View>
+  )
 
   renderRow = (rowData, sectionID, rowID) => (
     <Item
       sectionID={sectionID}
       rowID={rowID}
       rowData={rowData}
-      onPress={() => {
-        let newData = this.state.data.slice()
-        newData[rowID].o = 0
-        newData = sortData(newData)
-        this.setState({
-          data: newData,
-          ds: this.state.dsHandler.cloneWithRows(newData),
-        })
-      }}
     >
       {this.props.renderRow(rowData, sectionID, rowID)}
     </Item>
@@ -43,6 +55,7 @@ export default class Grid extends Component {
       <ListView
         dataSource={this.state.ds}
         renderRow={this.renderRow}
+        renderSectionHeader={this.renderSectionHeader}
         pageSize={this.props.pageSize}
         contentContainerStyle={{
           ...this.props.contentContainerStyle,
