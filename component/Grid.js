@@ -7,10 +7,10 @@ export default class Grid extends Component {
   constructor(props) {
     super(props)
 
+    const data = sortData(this.props.data.slice())
     const dsHandler = new ListView.DataSource({
       rowHasChanged: (r1, r2) => r1.o !== r2.o,
     })
-    const data = sortData(this.props.data.slice())
 
     this.state = {
       data,
