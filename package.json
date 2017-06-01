@@ -3,6 +3,9 @@
   "version": "0.0.1",
   "description": "An ios-like grid view based on react-native.",
   "main": "index.js",
+  "engines": {
+    "node": ">=6.10.3"
+  },
   "scripts": {},
   "repository": {
     "type": "git",
