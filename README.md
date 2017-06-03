@@ -1,9 +1,11 @@
 react-native-reseau
 ======
 
+**[WIP]** This project is still in progress.
+
 ## Usage
 
-```javascript
+```js
 import Reseau, {
   formatUriSource,
 } from 'react-native-reseau'
@@ -40,3 +42,9 @@ const renderRow = (rowData, sectionID, rowID) => (
 - `o`?: `number` order
 - `g`?: `string` group name
 - `p`?: `number` page
+
+## Development
+
+1. Clone the enviroment project: [jaychsu/react-native-env](https://github.com/jaychsu/react-native-env).
+2. Update the submodule called `react-native-reseau`.
+3. Run command to start, for example: `react-native run-ios`.
