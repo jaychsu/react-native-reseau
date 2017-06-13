@@ -41,8 +41,21 @@ export function sortData(data) {
   })
 }
 
-const itemIdPrefix = 'i'
-const groupIdPrefix = 'g'
+export const itemIdPrefix = 'i'
+export const groupIdPrefix = 'g'
+
+export function getItemsInGroup(groupId, store = {}) {
+  const groupInfo = store.groups[groupId]
+  let result = {}
+  if (!groupInfo) return result
+
+  groupInfo.$children.map((itemId) => {
+    if (!store.items[itemId]) return
+    result[itemId] = store.items[itemId]
+  })
+
+  return result
+}
 
 export function dataToStore(data) {
   if (!isArray(data)) return data

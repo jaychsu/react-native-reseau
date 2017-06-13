@@ -1,42 +1,55 @@
 import React, { Component } from 'react'
 import { ListView } from 'react-native'
-import { sortData } from '../shared/util'
+import Group from './Group'
 import Item from './Item'
+import {
+  groupIdPrefix,
+  getItemsInGroup,
+} from '../shared/util'
 
 export default class Grid extends Component {
   constructor(props) {
     super(props)
 
-    const data = sortData(this.props.data.slice())
+    const rows = props.store.pages
     const dsHandler = new ListView.DataSource({
-      rowHasChanged: (r1, r2) => r1.o !== r2.o,
+      rowHasChanged: (r1, r2) => r1 !== r2,
     })
 
     this.state = {
-      data,
+      rows,
       dsHandler,
-      ds: dsHandler.cloneWithRows(data),
+      ds: dsHandler.cloneWithRows(rows),
     }
   }
 
-  renderRow = (rowData, sectionID, rowID) => (
-    <Item
-      sectionID={sectionID}
-      rowID={rowID}
-      rowData={rowData}
-      onPress={() => {
-        let newData = this.state.data.slice()
-        newData[rowID].o = 0
-        newData = sortData(newData)
-        this.setState({
-          data: newData,
-          ds: this.state.dsHandler.cloneWithRows(newData),
-        })
-      }}
-    >
-      {this.props.renderRow(rowData, sectionID, rowID)}
-    </Item>
-  )
+  renderRow = (rowRef, sectionID, rowID) => {
+    const isGroup = (rowRef && rowRef[0] === groupIdPrefix)
+    const rowInfo = (isGroup)
+      ? this.props.store.groups[rowRef]
+      : this.props.store.items[rowRef]
+
+    return (isGroup)
+      ? (
+          <Group
+            sectionID={sectionID}
+            rowID={rowID}
+            groupInfo={rowInfo}
+            itemInfos={getItemsInGroup(rowRef, this.props.store)}
+            onPress={() => {}}
+          />
+        )
+      : (
+          <Item
+            sectionID={sectionID}
+            rowID={rowID}
+            itemInfo={rowInfo}
+            onPress={() => {}}
+          >
+            {this.props.renderRow(rowInfo.$data, sectionID, rowID)}
+          </Item>
+        )
+  }
 
   render() {
     return (
