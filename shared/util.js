@@ -20,7 +20,25 @@ export function formatUriSource(uri, config = {}) {
 
 export function sortData(data) {
   if (!isArray(data)) return data
-  return data.sort((a, b) => a.o - b.o)
+  return data.sort((a, b) => {
+    const isAFinite = Number.isFinite(+a.o)
+    const isBFinite = Number.isFinite(+b.o)
+
+    if ( !isAFinite
+      && !isBFinite) return 0
+
+    if ( !isAFinite
+      || +a.o < +b.o) {
+      return 1
+    }
+
+    if ( !isBFinite
+      || +a.o > +b.o) {
+      return -1
+    }
+
+    return 0
+  })
 }
 
 export function dataToStore(data) {}
