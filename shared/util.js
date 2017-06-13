@@ -23,20 +23,9 @@ export function sortData(data) {
   return data.sort((a, b) => {
     const isAFinite = Number.isFinite(+a.o)
     const isBFinite = Number.isFinite(+b.o)
-
-    if ( !isAFinite
-      && !isBFinite) return 0
-
-    if ( !isAFinite
-      || +a.o < +b.o) {
-      return 1
-    }
-
-    if ( !isBFinite
-      || +a.o > +b.o) {
-      return -1
-    }
-
+    if (!isAFinite && !isBFinite) return 0
+    if (!isAFinite || +a.o < +b.o) return 1
+    if (!isBFinite || +a.o > +b.o) return -1
     return 0
   })
 }
