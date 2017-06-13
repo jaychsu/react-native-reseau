@@ -30,10 +30,6 @@ const renderRow = (rowData, sectionID, rowID) => (
 <Reseau
   data={data}
   renderRow={renderRow}
-
-  // All the props are the same as the `ListView`, except for the `dataSource`.
-  // REF: https://facebook.github.io/react-native/docs/listview.html
-  ...props
 />
 ```
 
@@ -41,7 +37,6 @@ const renderRow = (rowData, sectionID, rowID) => (
 
 - `o`?: `number` order
 - `g`?: `string` group name
-- `p`?: `number` page
 
 ## Development
 
