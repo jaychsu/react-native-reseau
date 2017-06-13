@@ -41,6 +41,46 @@ export function sortData(data) {
   })
 }
 
-export function dataToStore(data) {}
+const itemIdPrefix = 'i'
+const groupIdPrefix = 'g'
 
-export function storeToData(store) {}
+export function dataToStore(data) {
+  if (!isArray(data)) return data
+
+  let store = {
+    items: {},
+    groups: {},
+    pages: [],
+  }
+
+  sortData(data).map((item, index) => {
+    const itemId = `${itemIdPrefix}${index}`
+    const groupId = item.g ? `${groupIdPrefix}${encodeURI(item.g)}` : null
+
+    store.items[itemId] = {
+      $data: item,
+    }
+
+    if (!groupId) {
+      store.pages.push(itemId)
+      return
+    }
+
+    if (store.groups[groupId]) {
+      store.groups[groupId].$children.push(itemId)
+    } else {
+      store.groups[groupId] = {
+        $name: 'New Group',
+        $children: [itemId],
+      }
+      store.pages.push(groupId)
+    }
+  })
+
+  return store
+}
+
+export function storeToData(store) {
+  let data = []
+  return data
+}
