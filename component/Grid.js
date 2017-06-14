@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { ListView } from 'react-native'
 import Group from './Group'
 import Item from './Item'
+import Style from '../shared/style'
 import {
   groupIdPrefix,
   getItemsInGroup,
@@ -45,9 +46,7 @@ export default class Grid extends Component {
             rowID={rowID}
             itemInfo={rowInfo}
             onPress={() => {}}
-          >
-            {this.props.renderRow(rowInfo.$data, sectionID, rowID)}
-          </Item>
+          />
         )
   }
 
@@ -57,13 +56,10 @@ export default class Grid extends Component {
         dataSource={this.state.ds}
         renderRow={this.renderRow}
         pageSize={this.props.pageSize}
-        contentContainerStyle={{
-          ...this.props.contentContainerStyle,
-          flexDirection: 'row',
-          flexWrap: 'wrap',
-          justifyContent: 'flex-start',
-          alignItems: 'flex-start',
-        }}
+        contentContainerStyle={[
+          this.props.contentContainerStyle,
+          Style.gridLayout
+        ]}
       />
     )
   }
