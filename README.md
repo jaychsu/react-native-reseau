@@ -6,9 +6,7 @@ react-native-reseau
 ## Usage
 
 ```js
-import Reseau, {
-  formatUriSource,
-} from 'react-native-reseau'
+import Reseau from 'react-native-reseau'
 
 const data = [
   { src: require('./assets/Facebook.jpg'), title: 'Facebook', anything: 123 },
@@ -16,21 +14,7 @@ const data = [
   { src: 'data:image/png;base64,iVBORw0KGgoAAAANS...', title: 'Facebook Messenger', anything: 314 },
 ]
 
-const renderRow = (rowData, sectionID, rowID) => (
-  <View>
-    <Image source={formatUriSource(rowData.src)} />
-    <Text>
-      {rowID}
-      {rowData.title}
-      {rowData.anything}
-    </Text>
-  </View>
-)
-
-<Reseau
-  data={data}
-  renderRow={renderRow}
-/>
+<Reseau data={data} />
 ```
 
 ### Special props in `data`:
