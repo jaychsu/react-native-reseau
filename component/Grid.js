@@ -31,8 +31,7 @@ export default class Grid extends Component {
       : this.props.store.items[rowRef]
 
     return (isGroup)
-      ? (
-          <Group
+      ? ( <Group
             sectionID={sectionID}
             rowID={rowID}
             groupInfo={rowInfo}
@@ -40,8 +39,7 @@ export default class Grid extends Component {
             onPress={() => {}}
           />
         )
-      : (
-          <Item
+      : ( <Item
             sectionID={sectionID}
             rowID={rowID}
             itemInfo={rowInfo}
